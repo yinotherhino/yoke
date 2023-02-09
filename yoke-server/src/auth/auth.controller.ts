@@ -10,7 +10,7 @@ import {
   HttpStatus,
   HttpCode,
 } from '@nestjs/common';
-import { IUser, ICreateUser, IUpdateUser } from './interfaces/user';
+import { IUser, ICreateUser, IUpdateUser } from '../common/interfaces/user';
 import { AuthService } from './auth.service';
 
 @Controller('auth')

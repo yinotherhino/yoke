@@ -11,9 +11,10 @@ import { AuthModule } from './auth/auth.module';
 import config from './common/config/config';
 
 import { AuthMiddleware } from './common/middleware/auth';
+import { NotesModule } from './notes/notes.module';
 
 @Module({
-  imports: [MongooseModule.forRoot(config.URI), AuthModule],
+  imports: [MongooseModule.forRoot(config.URI), AuthModule, NotesModule],
   controllers: [AppController],
   providers: [AppService],
 })
@@ -27,5 +28,6 @@ export class AppModule implements NestModule {
         { path: 'auth', method: RequestMethod.GET },
       )
       .forRoutes('auth');
+    consumer.apply(AuthMiddleware).forRoutes('notes');
   }
 }
