@@ -1,17 +1,48 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
+import {
+  Injectable,
+  NestMiddleware,
+  UnauthorizedException,
+} from '@nestjs/common';
+import jwt from 'jsonwebtoken';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import config from '../config/config';
+import { User, UserDocument } from 'src/schemas/user.schema';
+import { RequestWithUser } from 'src/types';
+import { IUser } from '../interfaces/user';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
-  use(req: Request, res: Response, next: NextFunction) {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      if (token) {
-        return;
-      }
-      res.status(401).json({ message: 'Unauthorised' });
-    } catch (err) {
-      console.log(err);
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+
+  async use(req: RequestWithUser, res: Response, next: NextFunction) {
+    const bearerToken = req.headers.authorization;
+
+    if (!bearerToken) {
+      throw new UnauthorizedException('No authorization token provided');
     }
+
+    let decodedToken: any;
+    try {
+      const token = bearerToken.split(' ')[1];
+      decodedToken = jwt.verify(token, config.JWT_SECRET);
+    } catch (err) {
+      throw new UnauthorizedException('Invalid authorization token');
+    }
+
+    if (!decodedToken.userId) {
+      throw new UnauthorizedException('Invalid authorization token');
+    }
+
+    const user = (await this.userModel
+      .findById(decodedToken.id)
+      .exec()) as unknown as IUser;
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    req.user = user;
+    next();
   }
 }

@@ -6,7 +6,7 @@ export interface ILink {
   url: string;
 }
 
-export interface INotes extends Document {
+export interface INote extends Document {
   id?: string;
   title: string;
   text: string;
