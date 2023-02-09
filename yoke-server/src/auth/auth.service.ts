@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from '../schemas/user.schema';
-import { IUser } from './interfaces/user';
+import { ICreateUser, IUpdateUser, IUser } from './interfaces/user';
 
 @Injectable()
 export class AuthService {
@@ -11,32 +11,23 @@ export class AuthService {
     private userModel: Model<UserDocument>,
   ) {}
 
-  async findOne(id: string) {
-    try {
-      const user = this.userModel.findById(id);
-      return user;
-    } catch (err) {
-      console.log(err);
-    }
+  async findOne(id: string): Promise<IUser | null> {
+    return await this.userModel.findById(id);
   }
 
-  async findAll() {
-    const users = this.userModel.find();
-    return users;
+  async findAll(): Promise<Array<IUser> | null> {
+    return await this.userModel.find();
   }
 
   async deleteOne(id: string) {
-    const user = this.userModel.findByIdAndRemove(id);
-    return user;
+    return await this.userModel.findByIdAndRemove(id);
   }
 
-  async updateOne(user: IUser, id: string) {
-    const updatedUser = this.userModel.findByIdAndUpdate(id, user);
-    return updatedUser;
+  async updateOne(user: IUpdateUser, id: string) {
+    return await this.userModel.findByIdAndUpdate(id, user);
   }
 
-  async createOne(user: IUser) {
-    const newUser = this.userModel.create(user);
-    return newUser;
+  async createOne(user: ICreateUser) {
+    return await this.userModel.create(user);
   }
 }

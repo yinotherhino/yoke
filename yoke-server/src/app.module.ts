@@ -8,9 +8,9 @@ import { AppController } from './app.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import config from './config/config';
+import config from './common/config/config';
 
-import { AuthMiddleware } from './middleware/auth';
+import { AuthMiddleware } from './common/middleware/auth';
 
 @Module({
   imports: [MongooseModule.forRoot(config.URI), AuthModule],
