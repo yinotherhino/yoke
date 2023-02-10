@@ -33,7 +33,7 @@ export class NotesController {
   }
 
   @Post()
-  async createUser(@Body() note: INote): Promise<{ note: INote }> {
+  async createNote(@Body() note: INote): Promise<{ note: INote }> {
     const newUser = (await this.noteService.createOne(
       note,
     )) as unknown as INote;
@@ -42,13 +42,13 @@ export class NotesController {
 
   @Delete()
   @HttpCode(204)
-  async deleteUser(@Param() id: string): Promise<null> {
+  async deleteNote(@Param() id: string): Promise<null> {
     await this.noteService.deleteOne(id);
     return null;
   }
 
   @Patch(':id')
-  async updateUser(
+  async updateNote(
     @Body() Body: IUpdateNote,
     @Param('id') id: string,
   ): Promise<{ note: INote }> {

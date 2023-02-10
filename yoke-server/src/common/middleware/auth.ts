@@ -11,6 +11,7 @@ import config from '../config/config';
 import { User, UserDocument } from 'src/schemas/user.schema';
 import { RequestWithUser } from 'src/types';
 import { IUser } from '../interfaces/user';
+import HashAndEncrypt from '../utils/HashEncrypt';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -26,7 +27,7 @@ export class AuthMiddleware implements NestMiddleware {
     let decodedToken: any;
     try {
       const token = bearerToken.split(' ')[1];
-      decodedToken = jwt.verify(token, config.JWT_SECRET);
+      decodedToken = HashAndEncrypt.decodeToken(token);
     } catch (err) {
       throw new UnauthorizedException('Invalid authorization token');
     }
@@ -35,9 +36,9 @@ export class AuthMiddleware implements NestMiddleware {
       throw new UnauthorizedException('Invalid authorization token');
     }
 
-    const user = (await this.userModel
-      .findById(decodedToken.id)
-      .exec()) as unknown as IUser;
+    const user = (await this.userModel.findById(
+      decodedToken.id,
+    )) as unknown as IUser;
     if (!user) {
       throw new UnauthorizedException('User not found');
     }

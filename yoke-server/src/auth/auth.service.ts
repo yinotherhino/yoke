@@ -15,6 +15,10 @@ export class AuthService {
     return await this.userModel.findById(id);
   }
 
+  async findByEmail(email: string): Promise<IUser | null> {
+    return await this.userModel.findOne({ email });
+  }
+
   async findAll(): Promise<Array<IUser> | null> {
     return await this.userModel.find();
   }
