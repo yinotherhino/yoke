@@ -1,4 +1,4 @@
-.form-input{
+.form-input, .note-input{
     background-color: #181823;
     display: block;
     margin: 30px 0;
@@ -8,15 +8,21 @@
     color: white;
 }
 
-.form-input::placeholder{
+.form-input::placeholder, .note-input::placeholder{
     color: #E9F8F9;
 }
 
-.form-input:focus{
+.form-input:focus, .note-input:focus{
     border: 3px solid #E9F8F9;
     background-color: #181823;
 }
 
+.note-input{
+    width: 30%;
+    display: block;
+    margin: auto;
+    margin-bottom: 15px;
+}
 /* #181823
 #537FE7
 #C0EEF2

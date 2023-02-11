@@ -17,7 +17,6 @@ interface ILink {
 }
 interface INote{
 	owner:string,
-	title:string,
 	text:string,
 	links:ILink[],
 }
@@ -29,8 +28,8 @@ export interface AllContext {
 	handleLogin: (formData: IFormData) => void;
 	handleSignup: (formData: IFormData) => void;
 	handleLoginSuccess: ({token: string, user: UserContent}) => void;
-	// alert:{message:string, color:AlertColor};
-	// changeAlert:({message,color}:{message:string,color:AlertColor})=>void;
+	setShowDashForm: React.Dispatch<React.SetStateAction<"addnote" | "editnote" | null>>;
+	showDashForm: "addnote" | "editnote" | null;
 	user:UserContent | null;
 	handleDeleteAccount: () => Promise<void>;
 	handleAddNote: (noteData: INoteData) => Promise<void>;

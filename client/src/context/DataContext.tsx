@@ -16,6 +16,7 @@ export const DataContext = createContext<AllContext | null>(null);
 export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
   const [user, setUser] = useState<UserContent | null>(null)
   const [showForm, setShowForm] = useState<FormTypes>('login');
+  const [showDashForm, setShowDashForm] = useState<"addnote" | "editnote" | null>(null);
   const navigate = useNavigate()
 
   const changeForm = (type:FormTypes)=>{
@@ -69,7 +70,16 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
   }
 
   const handleAddNote = async (noteData: INoteData)=>{
-  
+    try{
+      const res = await MyApiReq.post("/notes",noteData);
+      toast.success(res?.data.message, {toastId:"addnote success"})
+
+    }
+    catch(err:any){
+      console.log(err)
+      const errorforToastify = errorHandler(err);
+      toast.error(errorforToastify[0], errorforToastify[1]);
+    }
   }
 
   const handleDeleteAccount = async()=>{
@@ -100,7 +110,8 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
         handleLoginSuccess,
         handleDeleteAccount,
         handleAddNote,
-        // changeAlert,
+        showDashForm,
+        setShowDashForm,
         user,
       }}
     >

@@ -41,6 +41,44 @@ width: fit-content;
     cursor: pointer;
 }
 
+.text{
+    height: 200px;
+    display: block;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+.close-btn{
+    float: right;
+    cursor: pointer;
+}
+
+.link-btn{
+    cursor: pointer;
+}
+.addnote-container{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+.addnote-container > div{
+    background-color: #537FE7;
+    width: 30%;
+    margin: auto;
+    margin-top: 100px;
+    padding: 30px;
+}
+
+.addnote-container > div > span {
+    margin-right: 15px;
+}
+
+.submit-link{
+    
+}
+
 @media only screen and (max-width:900px){
     .notes-container{
         grid-template-columns: auto auto auto ;
