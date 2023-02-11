@@ -1,23 +1,23 @@
 import { Response, NextFunction } from 'express';
 import {
+  HttpException,
   Injectable,
   NestMiddleware,
   UnauthorizedException,
 } from '@nestjs/common';
-import jwt from 'jsonwebtoken';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import config from '../config/config';
-import { User, UserDocument } from 'src/schemas/user.schema';
+import { UserDocument } from 'src/schemas/user.schema';
 import { RequestWithUser } from 'src/types';
 import { IUser } from '../interfaces/user';
 import HashAndEncrypt from '../utils/HashEncrypt';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(@InjectModel('User') private UserModel: Model<UserDocument>) {}
 
   async use(req: RequestWithUser, res: Response, next: NextFunction) {
+    // try {
     const bearerToken = req.headers.authorization;
 
     if (!bearerToken) {
@@ -32,11 +32,11 @@ export class AuthMiddleware implements NestMiddleware {
       throw new UnauthorizedException('Invalid authorization token');
     }
 
-    if (!decodedToken.userId) {
+    if (!decodedToken.id) {
       throw new UnauthorizedException('Invalid authorization token');
     }
 
-    const user = (await this.userModel.findById(
+    const user = (await this.UserModel.findById(
       decodedToken.id,
     )) as unknown as IUser;
     if (!user) {
@@ -45,5 +45,9 @@ export class AuthMiddleware implements NestMiddleware {
 
     req.user = user;
     next();
+    // } catch (err) {
+    //   console.log(err);
+    //   throw err;
+    // }
   }
 }

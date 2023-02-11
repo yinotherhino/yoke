@@ -15,15 +15,15 @@ const Login = () => {
         e.preventDefault();
         const {name, value} =  e.target;
         setFormData(prev=>{
-            return{...prev, [name]:value}
+            return {...prev, [name]:value}
         });
     }
 
   return (
     <div className={style["login-container"]}>
         Login
-        <FormInput type="email" placeholder="email" onChange={handleChange} name="email" />
-        <FormInput type="password" placeholder="password" onChange={handleChange} name="password" />
+        <FormInput type="email" placeholder="email" value={formData.email} onChange={handleChange} name="email" />
+        <FormInput type="password" placeholder="password" value={formData.password} onChange={handleChange} name="password" />
         <AuthButton text='Submit' onClick={()=>handleLogin(formData)}/>
     </div>
   )

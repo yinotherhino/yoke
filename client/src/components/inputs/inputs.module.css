@@ -5,6 +5,7 @@
     padding: 10px;
     border: none;
     border-radius: 0;
+    color: white;
 }
 
 .form-input::placeholder{

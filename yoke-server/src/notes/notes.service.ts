@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Notes, NoteDocument } from '../schemas/notes.schema';
-import { INotes, IUpdateNote } from '../common/interfaces/notes';
+import { INote, IUpdateNote } from '../common/interfaces/notes';
 
 @Injectable()
 export class NotesService {
@@ -11,11 +11,11 @@ export class NotesService {
     private notesModel: Model<NoteDocument>,
   ) {}
 
-  async findOne(id: string): Promise<INotes | null> {
+  async findOne(id: string): Promise<INote | null> {
     return await this.notesModel.findById(id);
   }
 
-  async findAll(): Promise<Array<INotes> | null> {
+  async findAll(): Promise<Array<INote> | null> {
     return await this.notesModel.find();
   }
 
@@ -27,7 +27,7 @@ export class NotesService {
     return await this.notesModel.findByIdAndUpdate(id, note);
   }
 
-  async createOne(note: INotes) {
+  async createOne(note: INote) {
     return await this.notesModel.create(note);
   }
 }

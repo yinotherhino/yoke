@@ -1,14 +1,18 @@
 import React, { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 // import { DataContext } from './useContext';
 // import { AllContext } from '../interface';
 
 const ProtectRoute = ({ children }: { children: JSX.Element }) => {
-  const { verifyToken, loginStatus } = useContext(DataContext) as AllContext;
-  useEffect(() => {
-    const token = localStorage.getItem("token") as string;
-    verifyToken(token);
-  }, []);
-  return <>{children}</>;
+  const token = localStorage.getItem("token") as string;
+  const navigate = useNavigate();
+  
+
+  if(!token){
+    navigate("/")
+    return;
+  }
+  return <>{token && children}</>;
 };
 
 export default ProtectRoute;

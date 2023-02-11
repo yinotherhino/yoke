@@ -6,8 +6,8 @@ import * as Joi from '@hapi/joi';
 // });
 
 export const AuthSchema = Joi.object({
-  email: Joi.string().required(),
-  password: Joi.number().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
 });
 
 const LinkSchema = Joi.object({

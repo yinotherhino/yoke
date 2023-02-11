@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   async deleteOne(id: string) {
-    return await this.userModel.findByIdAndRemove(id);
+    return await this.userModel.findByIdAndRemove({ _id: id });
   }
 
   async updateOne(user: IUpdateUser, id: string) {

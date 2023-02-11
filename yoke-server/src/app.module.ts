@@ -12,9 +12,15 @@ import config from './common/config/config';
 
 import { AuthMiddleware } from './common/middleware/auth';
 import { NotesModule } from './notes/notes.module';
+import { User, userSchema } from './schemas/user.schema';
 
 @Module({
-  imports: [MongooseModule.forRoot(config.URI), AuthModule, NotesModule],
+  imports: [
+    MongooseModule.forRoot(config.URI),
+    AuthModule,
+    NotesModule,
+    MongooseModule.forFeature([{ name: User.name, schema: userSchema }]),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
@@ -23,9 +29,8 @@ export class AppModule implements NestModule {
     consumer
       .apply(AuthMiddleware)
       .exclude(
-        { path: 'auth', method: RequestMethod.PATCH },
-        { path: 'auth', method: RequestMethod.DELETE },
-        { path: 'auth', method: RequestMethod.GET },
+        { path: 'auth/login', method: RequestMethod.POST },
+        { path: 'auth/signup', method: RequestMethod.POST },
       )
       .forRoutes('auth');
     consumer.apply(AuthMiddleware).forRoutes('notes');
