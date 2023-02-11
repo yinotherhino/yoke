@@ -6,9 +6,8 @@ import {
   Delete,
   Body,
   Param,
-  HttpException,
-  HttpStatus,
   HttpCode,
+  Req,
 } from '@nestjs/common';
 import { INote, IUpdateNote } from 'src/common/interfaces/notes';
 import { NotesService } from './notes.service';
@@ -18,26 +17,36 @@ export class NotesController {
   constructor(private readonly noteService: NotesService) {}
 
   @Get()
-  async findAll(): Promise<{ notes: Array<INote> }> {
-    const notes = (await this.noteService.findAll()) as unknown as INote[];
+  async findAll(@Req() req): Promise<{ notes: Array<INote> }> {
+    const notes = (await this.noteService.findAllByOwnerId(
+      req.user._id,
+    )) as unknown as INote[];
     return { notes };
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<{ note: INote }> {
-    const note = (await this.noteService.findOne(id)) as unknown as INote;
-    if (!note) {
-      throw new HttpException('note not found.', HttpStatus.NOT_FOUND);
-    }
-    return { note };
+  @Delete()
+  async clear() {
+    await this.noteService.clearCollection();
+    return null;
   }
 
+  // @Get(':id')
+  // async findOne(@Param('id') id: string): Promise<{ note: INote }> {
+  //   const note = (await this.noteService.findOne(id)) as unknown as INote;
+  //   if (!note) {
+  //     throw new HttpException('note not found.', HttpStatus.NOT_FOUND);
+  //   }
+  //   return { note };
+  // }
+
   @Post()
-  async createNote(@Body() note: INote): Promise<{ note: INote }> {
-    const newUser = (await this.noteService.createOne(
+  @HttpCode(201)
+  async createNote(@Req() req, @Body() note: INote): Promise<{ note: INote }> {
+    note['owner'] = req.user.id;
+    const newNote = (await this.noteService.createOne(
       note,
     )) as unknown as INote;
-    return { note: newUser };
+    return { note: newNote };
   }
 
   @Delete()
@@ -52,7 +61,7 @@ export class NotesController {
     @Body() Body: IUpdateNote,
     @Param('id') id: string,
   ): Promise<{ note: INote }> {
-    const updatedUser = await this.noteService.updateOne(Body, id);
-    return { note: updatedUser };
+    const updatedNote = await this.noteService.updateOne(Body, id);
+    return { note: updatedNote };
   }
 }

@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Notes, NoteDocument } from '../schemas/notes.schema';
+import { Note, NoteDocument } from '../schemas/notes.schema';
 import { INote, IUpdateNote } from '../common/interfaces/notes';
 
 @Injectable()
 export class NotesService {
   constructor(
-    @InjectModel(Notes.name)
+    @InjectModel(Note.name)
     private notesModel: Model<NoteDocument>,
   ) {}
 
@@ -15,8 +15,8 @@ export class NotesService {
     return await this.notesModel.findById(id);
   }
 
-  async findAll(): Promise<Array<INote> | null> {
-    return await this.notesModel.find();
+  async findAllByOwnerId(id: string): Promise<Array<INote> | null> {
+    return await this.notesModel.find({ owner: id });
   }
 
   async deleteOne(id: string) {
@@ -29,5 +29,9 @@ export class NotesService {
 
   async createOne(note: INote) {
     return await this.notesModel.create(note);
+  }
+
+  async clearCollection() {
+    await this.notesModel.remove();
   }
 }

@@ -1,13 +1,10 @@
 import { Document } from 'mongoose';
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 
-export type NoteDocument = Notes & Document;
+export type NoteDocument = Note & Document;
 
 @Schema()
-export class Notes {
-  @Prop({ required: true, unique: true })
-  title: string;
-
+export class Note {
   @Prop({ required: true })
   text: string;
 
@@ -17,11 +14,11 @@ export class Notes {
   @Prop({ required: true })
   links: [
     {
-      position: number;
-      length: number;
+      start: number;
+      end: number;
       url: string;
     },
   ];
 }
 
-export const notesSchema = SchemaFactory.createForClass(Notes);
+export const notesSchema = SchemaFactory.createForClass(Note);

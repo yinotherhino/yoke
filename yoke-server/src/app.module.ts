@@ -13,6 +13,7 @@ import config from './common/config/config';
 import { AuthMiddleware } from './common/middleware/auth';
 import { NotesModule } from './notes/notes.module';
 import { User, userSchema } from './schemas/user.schema';
+import { Note, notesSchema } from './schemas/notes.schema';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { User, userSchema } from './schemas/user.schema';
     AuthModule,
     NotesModule,
     MongooseModule.forFeature([{ name: User.name, schema: userSchema }]),
+    MongooseModule.forFeature([{ name: Note.name, schema: notesSchema }]),
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,21 +1,19 @@
 import { Document } from 'mongoose';
 
 export interface ILink {
-  position: number;
-  length: number;
+  start: number;
+  end: number;
   url: string;
 }
 
 export interface INote extends Document {
-  id?: string;
-  title: string;
+  _id?: string;
   text: string;
   links: ILink[];
   owner: string;
 }
 
 export interface IUpdateNote {
-  title?: string;
   text?: string;
   links?: ILink[];
   owner?: string;
