@@ -15,6 +15,7 @@ a{
   cursor: pointer;
 }
 
-button{
+button, .pointer{
   cursor: pointer;
 }
+

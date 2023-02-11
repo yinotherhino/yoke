@@ -6,8 +6,8 @@ import { AuthButton } from "../Buttons/Buttons";
 import style from "./navbar.module.css";
 import { AiOutlineLogin } from "react-icons/ai";
 
-const Navbar = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
-  const { handleLogout, changeForm, handleDeleteAccount } = useContext(DataContext) as AllContext;
+const Navbar = () => {
+  const { handleLogout, changeForm, handleDeleteAccount, isLoggedIn } = useContext(DataContext) as AllContext;
   const [showMenu, setShowMenu] = useState("hide");
 
   const handleMenu = () => {

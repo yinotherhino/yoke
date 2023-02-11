@@ -34,4 +34,8 @@ export interface AllContext {
 	user:UserContent | null;
 	handleDeleteAccount: () => Promise<void>;
 	handleAddNote: (noteData: INoteData) => Promise<void>;
+	notes: INote[] | null;
+	isLoggedIn: boolean;
+	getNodeById: (_id: string) => Promise<any>;
+	handleDeleteNote: (_id: string) => Promise<void>;
 }

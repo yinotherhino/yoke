@@ -9,110 +9,166 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import MyApiReq from "../utils/apiReq";
 import errorHandler from "../utils/errorHandler";
-import { AllContext, FormTypes, IFormData, INoteData, UserContent } from "./types";
+import {
+  AllContext,
+  FormTypes,
+  IFormData,
+  INote,
+  INoteData,
+  UserContent,
+} from "./types";
 
 export const DataContext = createContext<AllContext | null>(null);
 
 export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
-  const [user, setUser] = useState<UserContent | null>(null)
-  const [showForm, setShowForm] = useState<FormTypes>('login');
-  const [showDashForm, setShowDashForm] = useState<"addnote" | "editnote" | null>(null);
-  const [token, setToken] = useState<string | null>(null)
+  const [user, setUser] = useState<UserContent | null>(null);
+  const [showForm, setShowForm] = useState<FormTypes>("login");
+  const [showDashForm, setShowDashForm] = useState<
+    "addnote" | "editnote" | null
+  >(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [notes, setNotes] = useState<INote[] | null>(null);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const navigate = useNavigate()
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
-  
-  const getAllNotes = async()=>{
-    const res = await MyApiReq.get("/notes")
-    console.log(res.data)
-  }
-  
-  useEffect(()=>{
-    const storageUser = localStorage.getItem("user")
-    const storageToken = localStorage.getItem("token")
-    if(storageUser && storageToken){
-      getAllNotes()
+  const getAllNotes = async () => {
+    const res = await MyApiReq.get("/notes");
+    setNotes(res.data.notes);
+  };
+
+  const getNodeById = async (_id: string) => {
+    try {
+      const res = await MyApiReq.get(`/notes/${_id}`);
+      return res.data.note;
+    } catch (err) {
+      console.log(err);
+      const errorforToastify = errorHandler(err);
+      toast.error(errorforToastify[0], errorforToastify[1]);
     }
-  }, [user])
+  };
 
-  const changeForm = (type:FormTypes)=>{
-    setShowForm(type)
-  }
+  useEffect(() => {
+    const storageUser = localStorage.getItem("user");
+    const storageToken = localStorage.getItem("token");
+    if (storageUser && storageToken) {
+      getAllNotes();
+      setIsLoggedIn(true);
+    }
+  }, [user]);
+  useEffect(() => {
+    const storageUser = localStorage.getItem("user");
+    if (storageUser) {
+      setUser(JSON.parse(storageUser));
+    }
+  }, []);
 
-  const handleLogout = ()=>{
+  const changeForm = (type: FormTypes) => {
+    setShowForm(type);
+  };
+
+  const handleLogout = () => {
     localStorage.clear();
     sessionStorage.clear();
-    toast.success("Logout successful", {toastId:"logout"})
-    changeForm("login")
-    navigate("/")
-  }
+    toast.success("Logout successful", { toastId: "logout" });
+    changeForm("login");
+    navigate("/");
+  };
 
-  const handleLogin = async (formData:IFormData)=>{
-    try{
-      const res = await MyApiReq.post("/auth/login",formData);
-      handleLoginSuccess(res.data)
-      toast.success(res?.data.message, {toastId:"login success"})
-      navigate("/dashboard")
-    }
-    catch(err:any){
+  const handleLogin = async (formData: IFormData) => {
+    try {
+      const res = await MyApiReq.post("/auth/login", formData);
+      handleLoginSuccess(res.data);
+      toast.success(res?.data.message, { toastId: "login success" });
+      navigate("/dashboard");
+    } catch (err: any) {
       const errorforToastify = errorHandler(err);
       toast.error(errorforToastify[0], errorforToastify[1]);
     }
+  };
 
-  }
-
-  const handleSignup = async (formData:IFormData)=>{
-    try{
-      const {email, password} = formData;
-      const res = await MyApiReq.post("/auth/signup",{email, password});
-      toast.success(res?.data.message, {toastId:"signup success"})
-      changeForm("login")
-    }
-    catch(err:any){
+  const handleSignup = async (formData: IFormData) => {
+    try {
+      const { email, password } = formData;
+      const res = await MyApiReq.post("/auth/signup", { email, password });
+      toast.success(res?.data.message, { toastId: "signup success" });
+      changeForm("login");
+    } catch (err: any) {
       const errorforToastify = errorHandler(err);
       toast.error(errorforToastify[0], errorforToastify[1]);
     }
-    
-  }
+  };
 
-  const handleLoginSuccess = ({token, user}:{token: string, user: UserContent})=>{
-    localStorage.setItem("token", token)
-    setUser(user)
-    setToken(token)
-    localStorage.setItem("user", JSON.stringify(user))
-    navigate("/dashboard")
-  }
+  const handleLoginSuccess = ({
+    token,
+    user,
+  }: {
+    token: string;
+    user: UserContent;
+  }) => {
+    localStorage.setItem("token", token);
+    setUser(user);
+    setToken(token);
+    localStorage.setItem("user", JSON.stringify(user));
+    navigate("/dashboard");
+  };
 
-  const handleAddNote = async (noteData: INoteData)=>{
-    try{
-      const res = await MyApiReq.post("/notes",noteData);
-      toast.success(res?.data.message, {toastId:"addnote success"});
-
-    }
-    catch(err:any){
+  const handleAddNote = async (noteData: INoteData) => {
+    try {
+      const res = await MyApiReq.post("/notes", noteData);
+      notes
+        ? setNotes(prev => {
+            return prev && [...prev, res.data.note];
+          })
+        : setNotes([res.data.note]);
+      toast.success(res?.data.message, { toastId: "addnote success" });
+      setShowDashForm(null);
+    } catch (err: any) {
       const errorforToastify = errorHandler(err);
       toast.error(errorforToastify[0], errorforToastify[1]);
     }
-  }
+  };
 
-  const handleDeleteAccount = async()=>{
-    try{
-      if(!user){
-        navigate("/")
+  const handleDeleteAccount = async () => {
+    try {
+      if (!user) {
+        navigate("/");
+        toast.warning("Please login", { toastId: "login warn" });
         return;
       }
-      const {_id} = user
-        const res = await MyApiReq.delete(`/auth/${_id}`)
-        toast.success(res?.data.message, {toastId:"delete success"})
-        changeForm("login")
-        navigate("/")
-      }
-    catch(err:any){
+      const { _id } = user;
+      const res = await MyApiReq.delete(`/auth/${_id}`);
+      toast.success(res?.data.message, { toastId: "delete success" });
+      changeForm("login");
+      navigate("/");
+    } catch (err: any) {
       const errorforToastify = errorHandler(err);
       toast.error(errorforToastify[0], errorforToastify[1]);
     }
-  }
+  };
+
+  const handleDeleteNote = async (_id: string) => {
+    try {
+      if (!notes) {
+        return;
+      }
+      const res = await MyApiReq.delete(`/notes/${_id}`);
+      const index = notes.findIndex(item => item._id === _id);
+      if (index) {
+        console.log(index);
+        setNotes(() => {
+          const newNotes = notes.splice(index, 1);
+          console.log(newNotes);
+          return newNotes;
+        });
+      }
+      toast.success("note deleted successfully", { toastId: "delete success" });
+    } catch (err: any) {
+      const errorforToastify = errorHandler(err);
+      toast.error(errorforToastify[0], errorforToastify[1]);
+    }
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -127,6 +183,10 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
         showDashForm,
         setShowDashForm,
         user,
+        notes,
+        isLoggedIn,
+        getNodeById,
+        handleDeleteNote,
       }}
     >
       {children}

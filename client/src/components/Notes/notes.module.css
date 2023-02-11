@@ -1,12 +1,12 @@
-.notes-container{
+.notes-container, .outer-one-note-container{
     display: grid;
     grid-gap: 10px;
     grid-template-columns: auto auto auto auto auto;
     padding: 50px 2%;
     max-width: 100%;
 }
-    
-.box {
+
+.box, .one-note-container {
 background-color: #444;
 color: #fff;
 border-radius: 5px;
@@ -15,6 +15,13 @@ font-size: 20px;
 display: inline-block;
 width: fit-content;
 
+}
+.one-note-container{
+    width: 50vw;
+    margin: auto;
+}
+.outer-one-note-container{
+    grid-template-columns: auto;
 }
 /* #181823
 #537FE7
@@ -84,6 +91,12 @@ width: fit-content;
 
 }
 
+.share{
+    font-size: 15px;
+}
+
+
+
 @media only screen and (max-width:900px){
     .notes-container{
         grid-template-columns: auto auto auto ;
@@ -94,6 +107,9 @@ width: fit-content;
 @media only screen and (max-width:500px){
     .notes-container{
         grid-template-columns: auto auto ;
+    }
+    .one-note-container{
+        width: 100vw;
     }
 }
 

@@ -8,7 +8,7 @@ import { AllContext } from '../context/types';
 const Home = () => {
   const {showForm} = useContext(DataContext) as AllContext;
   return (<>
-    <Navbar isLoggedIn={false} />
+    <Navbar />
     {showForm==="login" ? <Login /> : <Signup />}
   </>
   )
