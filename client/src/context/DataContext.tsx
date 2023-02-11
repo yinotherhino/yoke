@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import MyApiReq from "../utils/apiReq";
 import errorHandler from "../utils/errorHandler";
-import { AllContext, FormTypes, IFormData, UserContent } from "./types";
+import { AllContext, FormTypes, IFormData, INoteData, UserContent } from "./types";
 
 export const DataContext = createContext<AllContext | null>(null);
 
@@ -68,6 +68,10 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
     navigate("/dashboard")
   }
 
+  const handleAddNote = async (noteData: INoteData)=>{
+  
+  }
+
   const handleDeleteAccount = async()=>{
     try{
       if(!user){
@@ -95,7 +99,7 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
         handleSignup,
         handleLoginSuccess,
         handleDeleteAccount,
-        // alert,
+        handleAddNote,
         // changeAlert,
         user,
       }}
