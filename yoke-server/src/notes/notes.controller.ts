@@ -8,6 +8,8 @@ import {
   Param,
   HttpCode,
   Req,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { INote, IUpdateNote } from 'src/common/interfaces/notes';
 import { NotesService } from './notes.service';
@@ -24,36 +26,32 @@ export class NotesController {
     return { notes };
   }
 
-  @Delete()
-  async clear() {
-    await this.noteService.clearCollection();
-    return null;
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<{ note: INote }> {
+    const note = (await this.noteService.findOne(id)) as unknown as INote;
+    if (!note) {
+      throw new HttpException('note not found.', HttpStatus.NOT_FOUND);
+    }
+    return { note };
   }
-
-  // @Get(':id')
-  // async findOne(@Param('id') id: string): Promise<{ note: INote }> {
-  //   const note = (await this.noteService.findOne(id)) as unknown as INote;
-  //   if (!note) {
-  //     throw new HttpException('note not found.', HttpStatus.NOT_FOUND);
-  //   }
-  //   return { note };
-  // }
 
   @Post()
   @HttpCode(201)
-  async createNote(@Req() req, @Body() note: INote): Promise<{ note: INote }> {
-    note['owner'] = req.user.id;
+  async createNote(
+    @Req() req,
+    @Body() note: INote,
+  ): Promise<{ note: INote; message: string }> {
+    note['owner'] = req.user._id;
     const newNote = (await this.noteService.createOne(
       note,
     )) as unknown as INote;
-    return { note: newNote };
+    return { note: newNote, message: 'note added successfully' };
   }
 
-  @Delete()
-  @HttpCode(204)
-  async deleteNote(@Param() id: string): Promise<null> {
+  @Delete(':id')
+  async deleteNote(@Param('id') id: string): Promise<{ message: string }> {
     await this.noteService.deleteOne(id);
-    return null;
+    return { message: 'deleted successfully' };
   }
 
   @Patch(':id')

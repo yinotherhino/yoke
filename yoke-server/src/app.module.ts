@@ -35,6 +35,9 @@ export class AppModule implements NestModule {
         { path: 'auth/signup', method: RequestMethod.POST },
       )
       .forRoutes('auth');
-    consumer.apply(AuthMiddleware).forRoutes('notes');
+    consumer
+      .apply(AuthMiddleware)
+      .exclude({ path: 'notes/:id', method: RequestMethod.GET })
+      .forRoutes('notes');
   }
 }

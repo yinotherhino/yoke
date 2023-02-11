@@ -12,7 +12,7 @@ export class NotesService {
   ) {}
 
   async findOne(id: string): Promise<INote | null> {
-    return await this.notesModel.findById(id);
+    return await this.notesModel.findOne({ _id: id });
   }
 
   async findAllByOwnerId(id: string): Promise<Array<INote> | null> {
@@ -20,7 +20,7 @@ export class NotesService {
   }
 
   async deleteOne(id: string) {
-    return await this.notesModel.findByIdAndRemove(id);
+    return await this.notesModel.deleteOne({ _id: id });
   }
 
   async updateOne(note: IUpdateNote, id: string) {
@@ -29,9 +29,5 @@ export class NotesService {
 
   async createOne(note: INote) {
     return await this.notesModel.create(note);
-  }
-
-  async clearCollection() {
-    await this.notesModel.remove();
   }
 }

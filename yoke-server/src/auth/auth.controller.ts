@@ -77,7 +77,7 @@ export class AuthController {
     @Req() req,
     @Param('id') id: string,
   ): Promise<{ message: string }> {
-    if (id !== req.user.id) {
+    if (id !== req.user._id) {
       throw new HttpException(
         'You can only delete your account',
         HttpStatus.UNAUTHORIZED,
