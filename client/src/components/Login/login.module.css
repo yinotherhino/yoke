@@ -6,6 +6,18 @@
     margin-top: 100px;
 }
 
+@media only screen and (max-width:900px){
+    .login-container{
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width:450px){
+    .login-container{
+        width: 80%;
+    }
+}
+
 /* #181823
 #537FE7
 #C0EEF2
