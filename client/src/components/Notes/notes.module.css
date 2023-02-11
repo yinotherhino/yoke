@@ -46,6 +46,7 @@ width: fit-content;
     display: block;
     margin: auto;
     margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .close-btn{
@@ -76,7 +77,11 @@ width: fit-content;
 }
 
 .submit-link{
-    
+    background-color: #fff;
+    color: green;
+    border: none;
+    margin-left: 10px;
+
 }
 
 @media only screen and (max-width:900px){

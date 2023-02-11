@@ -5,22 +5,23 @@ export interface UserContent {
     _id:string;
 	password?:string;
 }
-interface IFormData{
+export interface IFormData{
 	email: string;
 	password: string;
 	confirmPassword?:string;
 }
-interface ILink {
-	position: number,
-	length: number,
-	url: string,
+export interface ILink {
+	start: number;
+	end: number;
+	url: string;
 }
-interface INote{
-	owner:string,
-	text:string,
-	links:ILink[],
+export interface INote{
+	_id?:string;
+	owner:string;
+	text:string;
+	links:ILink[];
 }
-type INoteData = Omit<INote, "owner">
+export type INoteData = Omit<INote, "owner">
 export interface AllContext {
 	showForm: FormTypes;
 	handleLogout: ()=>void;

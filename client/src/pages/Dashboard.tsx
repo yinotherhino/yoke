@@ -6,210 +6,191 @@ import { INote } from "../context/types";
 const notes: INote[] = [
   {
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],
   },{
     owner: "1234",
-    title: "Hello",
     text: "hello world, this is a wonderful day",
     links: [
       {
-        position: 2,
-        length: 5,
+        start: 2,
+        end: 5,
         url: "https://facebook.com",
       },
     ],

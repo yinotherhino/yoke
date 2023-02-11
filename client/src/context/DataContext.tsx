@@ -17,7 +17,24 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
   const [user, setUser] = useState<UserContent | null>(null)
   const [showForm, setShowForm] = useState<FormTypes>('login');
   const [showDashForm, setShowDashForm] = useState<"addnote" | "editnote" | null>(null);
+  const [token, setToken] = useState<string | null>(null)
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const navigate = useNavigate()
+
+  
+  const getAllNotes = async()=>{
+    const res = await MyApiReq.get("/notes")
+    console.log(res.data)
+  }
+  
+  useEffect(()=>{
+    const storageUser = localStorage.getItem("user")
+    const storageToken = localStorage.getItem("token")
+    if(storageUser && storageToken){
+      getAllNotes()
+    }
+  }, [user])
 
   const changeForm = (type:FormTypes)=>{
     setShowForm(type)
@@ -33,7 +50,6 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
 
   const handleLogin = async (formData:IFormData)=>{
     try{
-      console.log(formData)
       const res = await MyApiReq.post("/auth/login",formData);
       handleLoginSuccess(res.data)
       toast.success(res?.data.message, {toastId:"login success"})
@@ -50,12 +66,10 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
     try{
       const {email, password} = formData;
       const res = await MyApiReq.post("/auth/signup",{email, password});
-      console.log(res)
       toast.success(res?.data.message, {toastId:"signup success"})
       changeForm("login")
     }
     catch(err:any){
-      console.log(err)
       const errorforToastify = errorHandler(err);
       toast.error(errorforToastify[0], errorforToastify[1]);
     }
@@ -65,6 +79,7 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
   const handleLoginSuccess = ({token, user}:{token: string, user: UserContent})=>{
     localStorage.setItem("token", token)
     setUser(user)
+    setToken(token)
     localStorage.setItem("user", JSON.stringify(user))
     navigate("/dashboard")
   }
@@ -72,11 +87,10 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
   const handleAddNote = async (noteData: INoteData)=>{
     try{
       const res = await MyApiReq.post("/notes",noteData);
-      toast.success(res?.data.message, {toastId:"addnote success"})
+      toast.success(res?.data.message, {toastId:"addnote success"});
 
     }
     catch(err:any){
-      console.log(err)
       const errorforToastify = errorHandler(err);
       toast.error(errorforToastify[0], errorforToastify[1]);
     }
