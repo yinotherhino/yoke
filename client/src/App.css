@@ -5,3 +5,21 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+body{
+  margin: 0;
+}
+
+a{
+  color: #E9F8F9;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button{
+  cursor: pointer;
+}
+
+/* #181823
+#537FE7
+#C0EEF2
+#E9F8F9 */

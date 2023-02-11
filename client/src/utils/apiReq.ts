@@ -7,7 +7,7 @@ interface UrlInterface {
 }
 
 
-const url = config.VITE_API_URL
+const baseUrl = config.VITE_API_URL
 
 class ApiRequest implements UrlInterface {
     readonly baseUrl:string;
@@ -65,4 +65,4 @@ class ApiRequest implements UrlInterface {
 
 }
 
-export default new ApiRequest(url)
+export default new ApiRequest(baseUrl)
