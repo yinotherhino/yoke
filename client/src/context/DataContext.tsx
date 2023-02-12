@@ -33,6 +33,7 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
   const navigate = useNavigate();
 
   const getAllNotes = async () => {
+    console.log(localStorage.getItem("token"))
     const res = await MyApiReq.get("/notes");
     setNotes(res.data.notes);
   };
@@ -49,17 +50,21 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
   };
 
   useEffect(() => {
-    const storageUser = localStorage.getItem("user");
-    const storageToken = localStorage.getItem("token");
-    if (storageToken) {
+    // const storageUser = localStorage.getItem("user");
+    // if (storageToken) {
       getAllNotes();
-      setIsLoggedIn(true);
-    }
-  }, [user, localStorage]);
-  useEffect(() => {
-    const storageUser = localStorage.getItem("user");
-    if (storageUser) {
-      setUser(JSON.parse(storageUser));
+      // }
+    }, [user, localStorage]);
+    useEffect(() => {
+      const storageUser = localStorage.getItem("user");
+      const storageToken = localStorage.getItem("token");
+      if (storageUser) {
+        setUser(JSON.parse(storageUser));
+        
+      }
+      if(storageToken){
+        setIsLoggedIn(true);
+
     }
   }, []);
 
