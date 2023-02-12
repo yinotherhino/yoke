@@ -101,6 +101,11 @@ width: fit-content;
     .notes-container{
         grid-template-columns: auto auto auto ;
     }
+    .addnote-container > div{
+        width: 50%;
+        margin-top:50px;
+        padding: 20px;
+    }
 }
 
 
@@ -110,6 +115,11 @@ width: fit-content;
     }
     .one-note-container{
         width: 100vw;
+    }
+    .addnote-container > div{
+        width: 70%;
+        margin-top:30px;
+        padding: 20px;
     }
 }
 
@@ -121,5 +131,10 @@ width: fit-content;
     .box{
         font-size: 15px;
         width: auto;
+    }
+    .addnote-container > div{
+        width: 90%;
+        margin-top:30px;
+        padding: 10px;
     }
 }

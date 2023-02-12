@@ -10,7 +10,7 @@ const ProtectRoute = ({ children }: { children: JSX.Element }) => {
 
   if(!token){
     navigate("/")
-    return;
+    return<></>;
   }
   return <>{token && children}</>;
 };
