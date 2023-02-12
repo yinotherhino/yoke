@@ -113,6 +113,18 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
     navigate("/dashboard");
   };
 
+  const handleEditNote = async (noteData: INote) => {
+    try {
+      const res = await MyApiReq.patch(`/notes/${noteData._id}`, noteData);
+      toast.success(res?.data.message, { toastId: "addnote success" });
+      window.location.reload();
+      setShowDashForm(null);
+    } catch (err: any) {
+      const errorforToastify = errorHandler(err);
+      toast.error(errorforToastify[0], errorforToastify[1]);
+    }
+  };
+
   const handleAddNote = async (noteData: INoteData) => {
     try {
       const res = await MyApiReq.post("/notes", noteData);
@@ -153,16 +165,8 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
         return;
       }
       const res = await MyApiReq.delete(`/notes/${_id}`);
-      const index = notes.findIndex(item => item._id === _id);
-      if (index) {
-        console.log(index);
-        setNotes(() => {
-          const newNotes = notes.splice(index, 1);
-          console.log(newNotes);
-          return newNotes;
-        });
-      }
       toast.success("note deleted successfully", { toastId: "delete success" });
+      window.location.reload()
     } catch (err: any) {
       const errorforToastify = errorHandler(err);
       toast.error(errorforToastify[0], errorforToastify[1]);
@@ -187,6 +191,7 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
         isLoggedIn,
         getNodeById,
         handleDeleteNote,
+        handleEditNote
       }}
     >
       {children}

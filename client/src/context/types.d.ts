@@ -38,4 +38,5 @@ export interface AllContext {
 	isLoggedIn: boolean;
 	getNodeById: (_id: string) => Promise<any>;
 	handleDeleteNote: (_id: string) => Promise<void>;
+	handleEditNote: (noteData: INote) => Promise<void>;
 }

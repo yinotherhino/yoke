@@ -1,17 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DataContext } from "../../context/DataContext";
-import { AllContext } from "../../context/types";
+import { AllContext, INote } from "../../context/types";
 import { AuthButton } from "../Buttons/Buttons";
 import { INoteData } from "../../context/types";
 import { AiOutlineLink, AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 import style from "./notes.module.css";
 
-const AddNote = () => {
-  const { handleAddNote, setShowDashForm } = useContext(
-    DataContext
-  ) as AllContext;
+const AddNote = ({
+  initialNoteData,
+  handleAddNote,
+}: {
+  initialNoteData?: INoteData;
+  handleAddNote: Function;
+}) => {
+  const { setShowDashForm } = useContext(DataContext) as AllContext;
 
-  const [noteData, setNoteData] = useState<INoteData>({
+  const [noteData, setNoteData] = useState<INoteData | INote>({
     text: "",
     links: [],
   });
@@ -26,6 +30,13 @@ const AddNote = () => {
       return { ...prev, text: e.target.value };
     });
   };
+
+  useEffect(() => {
+    if (initialNoteData) {
+      setNoteData(initialNoteData);
+      console.log(initialNoteData)
+    }
+  }, []);
 
   const handleAddLink = (e: React.MouseEvent<SVGElement>) => {
     e.preventDefault();
