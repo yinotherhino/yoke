@@ -6,12 +6,13 @@ import { useNavigate } from "react-router-dom";
 const ProtectRoute = ({ children }: { children: JSX.Element }) => {
   const token = localStorage.getItem("token") as string;
   const navigate = useNavigate();
-  
+  useEffect(()=>{
+    if(!token){
+      navigate("/")
+    }
 
-  if(!token){
-    navigate("/")
-    return<></>;
-  }
+  },[])
+
   return <>{token && children}</>;
 };
 
