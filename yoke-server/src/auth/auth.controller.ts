@@ -127,7 +127,7 @@ export class AuthController {
       );
     } else {
       const token = HashEncrypt.generateToken({
-        id: existingUser.id,
+        _id: existingUser._id,
         email: existingUser.email,
       });
       return { user: existingUser, token, message: 'Login successful' };

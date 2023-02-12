@@ -19,7 +19,7 @@ class HashAndEncrypt {
     return jwt.verify(token, this.key);
   }
 
-  generateToken(payload: { id: string; email: string }) {
+  generateToken(payload: { _id: string; email: string }) {
     return jwt.sign(payload, this.key);
   }
 }

@@ -13,7 +13,7 @@ export class AuthService {
   ) {}
 
   async findOne(id: string): Promise<IUser | null> {
-    return await this.userModel.findById(id);
+    return await this.userModel.findOne({_id: id});
   }
 
   async findByEmail(email: string): Promise<IUser | null> {
