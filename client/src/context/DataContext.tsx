@@ -87,6 +87,7 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
       handleLoginSuccess(res.data);
       toast.success(res?.data.message, { toastId: "login success" });
       navigate("/dashboard");
+      window.location.reload();
     } catch (err: any) {
       const errorforToastify = errorHandler(err);
       toast.error(errorforToastify[0], errorforToastify[1]);
