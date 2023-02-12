@@ -26,6 +26,7 @@ class ApiRequest implements UrlInterface {
 
   async post(path: string, formData: { [key: string]: any }) {
     try {
+      console.log(this.headers)
       const url = `${this.baseUrl}${path}`;
       return await axios.post(url, formData, this.headers);
     } catch (err: any) {
