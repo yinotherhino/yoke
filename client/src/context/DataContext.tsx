@@ -80,7 +80,6 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
     try {
       const res = await MyApiReq.post("/auth/login", formData);
       handleLoginSuccess(res.data);
-      localStorage.setItem("token", res.data.token)
       toast.success(res?.data.message, { toastId: "login success" });
       navigate("/dashboard");
     } catch (err: any) {
