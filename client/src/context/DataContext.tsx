@@ -51,11 +51,11 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
   useEffect(() => {
     const storageUser = localStorage.getItem("user");
     const storageToken = localStorage.getItem("token");
-    if (storageUser && storageToken) {
+    if (storageToken) {
       getAllNotes();
       setIsLoggedIn(true);
     }
-  }, [user]);
+  }, [user, localStorage]);
   useEffect(() => {
     const storageUser = localStorage.getItem("user");
     if (storageUser) {
@@ -70,6 +70,7 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
   const handleLogout = () => {
     localStorage.clear();
     sessionStorage.clear();
+    setIsLoggedIn(false)
     toast.success("Logout successful", { toastId: "logout" });
     changeForm("login");
     navigate("/");
@@ -79,6 +80,7 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
     try {
       const res = await MyApiReq.post("/auth/login", formData);
       handleLoginSuccess(res.data);
+      localStorage.setItem("token", res.data.token)
       toast.success(res?.data.message, { toastId: "login success" });
       navigate("/dashboard");
     } catch (err: any) {
