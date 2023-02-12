@@ -5,7 +5,7 @@ import config from '../config/config';
 class HashAndEncrypt {
   readonly key: string;
   constructor() {
-    this.key = config.APP_SECRET;
+    this.key = config.APP_SECRET || "secret";
   }
   async hashPassword(password: string) {
     return await bcrypt.hash(password, 10);

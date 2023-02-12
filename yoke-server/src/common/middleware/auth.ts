@@ -32,12 +32,12 @@ export class AuthMiddleware implements NestMiddleware {
       throw new UnauthorizedException('Invalid authorization token');
     }
 
-    if (!decodedToken._id) {
+    if (!decodedToken.id) {
       throw new UnauthorizedException('Invalid authorization token');
     }
 
     const user = (await this.UserModel.findById(
-      decodedToken._id,
+      decodedToken.id,
     )) as unknown as IUser;
     if (!user) {
       throw new UnauthorizedException('User not found');
