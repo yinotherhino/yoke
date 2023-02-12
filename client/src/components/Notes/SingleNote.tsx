@@ -9,10 +9,12 @@ const SingleNote = ({
   item,
   handleShare,
   oneNote,
+  editNote,
 }: {
   item: INote;
   handleShare: (_id: string) => void;
   oneNote: boolean;
+  editNote?: (id: string) => void;
 }) => {
   const [text, setText] = useState("");
   useEffect(() => {
@@ -63,6 +65,10 @@ const SingleNote = ({
 
   const handleEdit = (e: React.MouseEvent<SVGElement>) => {
     e.preventDefault();
+    if(!editNote){
+      return
+    }
+    editNote(item._id!)
     setShowDashForm("editnote");
   };
 

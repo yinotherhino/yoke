@@ -9,9 +9,11 @@ import style from "./notes.module.css";
 const AddNote = ({
   initialNoteData,
   handleAddNote,
+  handleEditNote
 }: {
   initialNoteData?: INoteData;
-  handleAddNote: Function;
+  handleAddNote?: Function;
+  handleEditNote?: Function;
 }) => {
   const { setShowDashForm } = useContext(DataContext) as AllContext;
 
@@ -115,7 +117,8 @@ const AddNote = ({
           onSelect={handleSelect}
           required
         />
-        <AuthButton text="Add note" onClick={() => handleAddNote(noteData)} />
+        {handleAddNote && <AuthButton text="Add note" onClick={() => handleAddNote(noteData)} />}
+        {handleEditNote && <AuthButton text="Add note" onClick={() => handleEditNote(noteData)} />}
       </div>
     </div>
   );

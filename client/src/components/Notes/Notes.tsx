@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AllContext, INote, INoteData } from '../../context/types'
 import style from "./notes.module.css"
 import {AiOutlinePlus} from "react-icons/ai"
@@ -9,23 +9,26 @@ import config from '../../config'
 
 const Notes = ({notes, oneNote}:{notes:  INote[] | null; oneNote:boolean}) => {
   const {showDashForm, setShowDashForm, handleAddNote, handleEditNote}= useContext(DataContext) as AllContext;
-  const [toBeEdited, setToBeEdited] = useState<INoteData | undefined>()
+  const [toBeEdited, setToBeEdited] = useState<INote | undefined>()
   const handleShare = (_id:string)=>{
     alert(`This is your link: ${config.VITE_URL}/note/${_id}`)
   }
-  // const handleEditNote = (id:string)=>{
-  //   setShowDashForm("editnote");
-  //   if(!notes){
-  //     return;
-  //   }
-  //   const index = notes?.findIndex(item=>item._id === id)
-  //   setToBeEdited(notes[index])
-
-  // }
+  useEffect(()=>{
+   console.log(showDashForm) 
+   console.log(toBeEdited)
+  }, [showDashForm])
+  const editNote = (id:string)=>{
+    setShowDashForm("editnote");
+    if(!notes){
+      return;
+    }
+    const index = notes?.findIndex(item=>item._id === id)
+    setToBeEdited(notes[index])
+  }
   return (
     <>
       {showDashForm==="addnote" && <AddNote handleAddNote={handleAddNote} />}
-      {showDashForm==="editnote" && <AddNote initialNoteData={toBeEdited} handleAddNote={handleEditNote} />}
+      {showDashForm==="editnote" && <AddNote initialNoteData={toBeEdited} handleEditNote={handleEditNote} />}
       
       <div className={oneNote===true ? style["outer-one-note-container"]: style["notes-container"]} >
       {!oneNote && (<div className={style["new-note"]}  onClick={()=>setShowDashForm("addnote")} >
@@ -33,7 +36,7 @@ const Notes = ({notes, oneNote}:{notes:  INote[] | null; oneNote:boolean}) => {
       </div>)}
         
         {notes && notes.map((item, index)=>(
-          <SingleNote item={item} key={item._id} handleShare={handleShare} oneNote={oneNote} />
+          <SingleNote item={item} key={item._id} handleShare={handleShare} oneNote={oneNote} editNote={editNote}/>
         )
         )}
       </div>
