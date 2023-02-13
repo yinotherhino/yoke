@@ -183,7 +183,7 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
         console.log(prev)
         return prev
       })
-      // window.location.reload()
+      window.location.reload()
     } catch (err: any) {
       const errorforToastify = errorHandler(err);
       toast.error(errorforToastify[0], errorforToastify[1]);

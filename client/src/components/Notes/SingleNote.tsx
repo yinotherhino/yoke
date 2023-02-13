@@ -21,7 +21,7 @@ const SingleNote = ({
     getText();
   }, [item, text]);
 
-  const { handleDeleteNote, showDashForm, setShowDashForm } = useContext(
+  const { handleDeleteNote, notes, setShowDashForm } = useContext(
     DataContext
   ) as AllContext;
   const linkStarts = item.links.map(link => {
