@@ -51,22 +51,22 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
 
   useEffect(() => {
     // const storageUser = localStorage.getItem("user");
+    const storageToken = localStorage.getItem("token");
     // if (storageToken) {
-      getAllNotes();
-      // }
-    }, [user, localStorage]);
-    useEffect(() => {
-      const storageUser = localStorage.getItem("user");
-      const storageToken = localStorage.getItem("token");
-      if (storageUser) {
-        setUser(JSON.parse(storageUser));
-        
-      }
       if(storageToken){
+        getAllNotes();
         setIsLoggedIn(true);
+      }
+      // }
+  }, [localStorage.getItem("token")]);
 
-    }
-  }, []);
+  useEffect(() => {
+      const storageUser = localStorage.getItem("user");
+      if (storageUser) {
+        setUser(JSON.parse(storageUser));  
+      }
+
+  }, [localStorage.getItem("user")]);
 
   const changeForm = (type: FormTypes) => {
     setShowForm(type);
@@ -74,7 +74,6 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
 
   const handleLogout = () => {
     localStorage.clear();
-    sessionStorage.clear();
     setIsLoggedIn(false)
     toast.success("Logout successful", { toastId: "logout" });
     changeForm("login");
