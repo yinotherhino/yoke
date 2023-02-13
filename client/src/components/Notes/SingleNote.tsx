@@ -18,7 +18,6 @@ const SingleNote = ({
 }) => {
   const [text, setText] = useState("");
   useEffect(() => {
-    console.log(linkEnds);
     getText();
   }, [item, text]);
 

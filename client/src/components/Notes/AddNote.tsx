@@ -36,7 +36,6 @@ const AddNote = ({
   useEffect(() => {
     if (initialNoteData) {
       setNoteData(initialNoteData);
-      console.log(initialNoteData)
     }
   }, []);
 
@@ -73,9 +72,6 @@ const AddNote = ({
     setSelectionStart(e.target.selectionStart);
     setSelectionEnd(e.target.selectionEnd);
     setSelected(
-      noteData.text.slice(e.target.selectionStart, e.target.selectionEnd)
-    );
-    console.log(
       noteData.text.slice(e.target.selectionStart, e.target.selectionEnd)
     );
   };

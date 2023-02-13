@@ -13,10 +13,8 @@ const Notes = ({notes, oneNote}:{notes:  INote[] | null; oneNote:boolean}) => {
   const handleShare = (_id:string)=>{
     alert(`This is your link: ${config.VITE_URL}/note/${_id}`)
   }
-  useEffect(()=>{
-   console.log(showDashForm) 
-   console.log(toBeEdited)
-  }, [showDashForm])
+  // useEffect(()=>{
+  // }, [showDashForm])
   const editNote = (id:string)=>{
     setShowDashForm("editnote");
     if(!notes){

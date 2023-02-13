@@ -33,9 +33,8 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
   const navigate = useNavigate();
 
   const getAllNotes = async () => {
-    console.log(localStorage.getItem("token"))
     const res = await MyApiReq.get("/notes");
-    setNotes(res.data.notes);
+    setNotes(()=>res.data.notes);
   };
 
   const getNodeById = async (_id: string) => {
@@ -43,7 +42,6 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
       const res = await MyApiReq.get(`/notes/${_id}`);
       return res.data.note;
     } catch (err) {
-      console.log(err);
       const errorforToastify = errorHandler(err);
       toast.error(errorforToastify[0], errorforToastify[1]);
     }
@@ -52,12 +50,13 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
   useEffect(() => {
     // const storageUser = localStorage.getItem("user");
     const storageToken = localStorage.getItem("token");
-    // if (storageToken) {
       if(storageToken){
         getAllNotes();
         setIsLoggedIn(true);
       }
-      // }
+      else{
+        setIsLoggedIn(false);
+      }
   }, [localStorage.getItem("token")]);
 
   useEffect(() => {
@@ -115,6 +114,7 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
     localStorage.setItem("token", token);
     setUser(user);
     setToken(token);
+    setIsLoggedIn(true)
     localStorage.setItem("user", JSON.stringify(user));
     navigate("/dashboard");
   };
@@ -134,11 +134,13 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
   const handleAddNote = async (noteData: INoteData) => {
     try {
       const res = await MyApiReq.post("/notes", noteData);
-      notes
-        ? setNotes(prev => {
-            return prev && [...prev, res.data.note];
-          })
-        : setNotes([res.data.note]);
+      setNotes(prev => {
+        if(!prev){
+          return [res.data.note];
+        }
+        return [...prev, res.data.note];
+      })
+      
       toast.success(res?.data.message, { toastId: "addnote success" });
       setShowDashForm(null);
     } catch (err: any) {
@@ -172,7 +174,16 @@ export const DataProvider = ({ children }: { [key: string]: ReactElement }) => {
       }
       const res = await MyApiReq.delete(`/notes/${_id}`);
       toast.success("note deleted successfully", { toastId: "delete success" });
-      window.location.reload()
+      setNotes(prev =>{
+        if(!prev){
+          return prev;
+        }
+        const index = prev.findIndex(item=>item._id===_id)
+        prev.splice(index!,1)
+        console.log(prev)
+        return prev
+      })
+      // window.location.reload()
     } catch (err: any) {
       const errorforToastify = errorHandler(err);
       toast.error(errorforToastify[0], errorforToastify[1]);

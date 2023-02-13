@@ -21,7 +21,6 @@ const Note = () => {
   };
   useEffect(() => {
     void getNote();
-    console.log(note)
   }, [id]);
   return (
     <>

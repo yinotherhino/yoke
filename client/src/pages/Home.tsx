@@ -14,7 +14,7 @@ const Home = () => {
     if (isLoggedIn){
       navigate("/dashboard")
     }
-  },[])
+  },[isLoggedIn])
   return (<>
     <Navbar />
     {showForm==="login" ? <Login /> : <Signup />}
